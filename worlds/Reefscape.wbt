@@ -1,0 +1,36 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/humans/pedestrian/protos/Pedestrian.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.0974416861709424 0.8372677765157174 -0.5380406938184048 0.4260146268416504
+  position -6.895336750469174 0.796685095233228 3.7196848546018186
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Transform {
+  rotation 1 0 0 1.5707999999999998
+  scale 0.01 0.01 0.01
+  children [
+    Shape {
+      appearance PBRAppearance {
+        roughness 0.2
+        metalness 0.5
+      }
+      geometry Mesh {
+        url [
+          "../cad-files/Coral Base.obj"
+        ]
+      }
+    }
+  ]
+}
+Pedestrian {
+  translation 0 -1.62 1.27
+}

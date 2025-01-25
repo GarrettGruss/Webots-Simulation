@@ -1,0 +1,79 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/humans/pedestrian/protos/Pedestrian.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/bounding_objects/protos/PipeBoundingObject.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.25727603957573153 -0.5270142692281218 -0.8099783944588742 5.19836415895691
+  position -2.524273510996654 -2.375060394762687 2.3952346655820698
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Pedestrian {
+  translation 0 -1.62 1.27
+}
+Solid {
+  rotation 1 0 0 1.5707963267948968
+  children [
+    DEF coralShape Shape {
+      appearance PBRAppearance {
+        roughness 0.2
+        metalness 0.5
+      }
+      geometry Mesh {
+        url [
+          "../cad-files/CoralBase.stl"
+        ]
+      }
+      castShadows FALSE
+    }
+  ]
+  name "coralBaseSolid"
+  boundingObject USE coralShape
+}
+Solid {
+  translation -0.69 0 1.31
+  children [
+    DEF ballShape Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0.1
+      }
+      geometry Sphere {
+        radius 0.2065
+      }
+    }
+  ]
+  name "Algae"
+  boundingObject USE ballShape
+  physics Physics {
+  }
+}
+Floor {
+}
+Solid {
+  translation -0.73365 0.174933 0.73477
+  rotation -0.22051095892289166 -0.9011388321345223 0.3732609304684005 1.07647
+  children [
+    DEF CoralSolid PipeBoundingObject {
+      height 0.3
+      radius 0.055
+      thickness 0.004
+    }
+  ]
+  name "Coral"
+  boundingObject DEF CoralSolid PipeBoundingObject {
+    height 0.3
+    radius 0.055
+    thickness 0.004
+  }
+  physics Physics {
+  }
+}
