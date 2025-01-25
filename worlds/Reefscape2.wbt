@@ -2,22 +2,18 @@
 
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/humans/pedestrian/protos/Pedestrian.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/Floor.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/bounding_objects/protos/PipeBoundingObject.proto"
 
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.25727603957573153 -0.5270142692281218 -0.8099783944588742 5.19836415895691
-  position -2.524273510996654 -2.375060394762687 2.3952346655820698
+  orientation 0.2486944112717984 -0.7786651941181458 -0.5760482664422522 5.270678509784638
+  position -2.841976456066329 -1.2889471398720038 2.9285385422816104
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
-}
-Pedestrian {
-  translation 0 -1.62 1.27
 }
 Solid {
   rotation 1 0 0 1.5707963267948968
@@ -54,26 +50,29 @@ Solid {
   name "Algae"
   boundingObject USE ballShape
   physics Physics {
+    mass 0.2
+    damping Damping {
+    }
   }
 }
 Floor {
 }
 Solid {
-  translation -0.73365 0.174933 0.73477
+  translation -0.693308 0.0127133 0.801532
   rotation -0.22051095892289166 -0.9011388321345223 0.3732609304684005 1.07647
   children [
     DEF CoralSolid PipeBoundingObject {
       height 0.3
       radius 0.055
-      thickness 0.004
+      thickness 0.01
+      subdivision 20
     }
   ]
   name "Coral"
-  boundingObject DEF CoralSolid PipeBoundingObject {
-    height 0.3
-    radius 0.055
-    thickness 0.004
-  }
+  boundingObject USE CoralSolid
   physics Physics {
+    mass 0.6
+    damping Damping {
+    }
   }
 }
