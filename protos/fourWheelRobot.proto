@@ -1,0 +1,153 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/TireRubber.proto"
+PROTO fourWheelRobot [
+  field SFVec3f    translation  0 0 0
+  field SFRotation rotation     0 0 1 0
+  field SFFloat    bodyMass     1
+  field SFString   controller   "four_wheeled_collision_avoidance"
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    children [
+      DistanceSensor {
+        translation 0.1 0.03 0
+        rotation 0 0 1 0.3
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0 0 1
+            }
+            geometry Box {
+              size 0.01 0.01 0.01
+            }
+          }
+        ]
+        name "ds_left"
+      }
+      DistanceSensor {
+        translation 0.1 -0.03 0
+        rotation 0 0 1 -0.3
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0 0 1
+            }
+            geometry Box {
+              size 0.01 0.01 0.01
+            }
+          }
+        ]
+        name "ds_right"
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 1 0
+          anchor 0.06 0.06 0
+        }
+        device [
+          RotationalMotor {
+            name "front_left_motor"
+          }
+        ]
+        endPoint DEF WHEEL1 Solid {
+          translation 0.06 0.06 0
+          rotation 1 0 0 1.5707963267948968
+          children [
+            DEF WHEEL Shape {
+              appearance TireRubber {
+              }
+              geometry Cylinder {
+                height 0.02
+                radius 0.04
+              }
+            }
+          ]
+          name "front_left_motor"
+          boundingObject USE WHEEL
+          physics DEF WHEEL_PH Physics {
+          }
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 1 0
+          anchor -0.06 0.06 0
+        }
+        device [
+          RotationalMotor {
+            name "rear_left_motor"
+          }
+        ]
+        endPoint Solid {
+          translation -0.06 0.06 0
+          rotation 1 0 0 1.5707963267948968
+          children [
+            USE WHEEL
+          ]
+          name "rear_left_motor"
+          boundingObject USE WHEEL
+          physics USE WHEEL_PH
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 1 0
+          anchor -0.06 -0.06 0
+        }
+        device [
+          RotationalMotor {
+            name "rear_right_motor"
+          }
+        ]
+        endPoint Solid {
+          translation -0.06 -0.06 0
+          rotation 1 0 0 1.5707963267948968
+          children [
+            USE WHEEL
+          ]
+          name "rear_right_motor"
+          boundingObject USE WHEEL
+          physics USE WHEEL_PH
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 1 0
+          anchor 0.06 -0.06 0
+        }
+        device [
+          RotationalMotor {
+            name "front_right_motor"
+          }
+        ]
+        endPoint Solid {
+          translation 0.06 -0.06 0
+          rotation 1 0 0 1.5707963267948968
+          children [
+            USE WHEEL
+          ]
+          name "front_right_motor"
+          boundingObject USE WHEEL
+          physics USE WHEEL_PH
+        }
+      }
+      Shape {
+        appearance PBRAppearance {
+          baseColor 1 0 0
+        }
+        geometry DEF ROBOT Box {
+          size 0.2 0.1 0.05
+        }
+      }
+    ]
+    boundingObject USE ROBOT
+    physics Physics {
+      density -1
+      mass IS bodyMass
+    }
+    controller IS controller
+  }
+}

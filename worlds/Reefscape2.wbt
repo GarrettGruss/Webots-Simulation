@@ -4,12 +4,13 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/Floor.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/bounding_objects/protos/PipeBoundingObject.proto"
+EXTERNPROTO "../protos/fourWheelRobot.proto"
 
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.2486944112717984 -0.7786651941181458 -0.5760482664422522 5.270678509784638
-  position -2.841976456066329 -1.2889471398720038 2.9285385422816104
+  orientation 0.06824526177966948 -0.9854068284214977 -0.15593577762947525 5.447216626852854
+  position -4.388292277570843 -0.48311019315533976 4.032833051217392
 }
 TexturedBackground {
 }
@@ -57,6 +58,10 @@ Solid {
 }
 Floor {
 }
+fourWheelRobot {
+  translation -1.05 1.97 0.12
+  controller "joystickControl"
+}
 Solid {
   translation -0.693308 0.0127133 0.801532
   rotation -0.22051095892289166 -0.9011388321345223 0.3732609304684005 1.07647
@@ -65,7 +70,7 @@ Solid {
       height 0.3
       radius 0.055
       thickness 0.01
-      subdivision 20
+      subdivision 40
     }
   ]
   name "Coral"
