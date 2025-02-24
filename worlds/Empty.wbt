@@ -19,8 +19,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.20930486103565915 0.19374603707582888 0.9584643698459817 1.6901782695316037
-  position 0.5089748505726442 -2.2482703933471244 1.3616503734713
+  orientation -0.27075781072268174 0.2002536821807988 0.9415883764712117 1.9249771366595598
+  position 0.8404070525242507 -1.6912400272226207 1.3079738751925305
 }
 TexturedBackground {
 }
@@ -69,6 +69,42 @@ Robot {
             translation 0.2286 0 0
             rotation 0 1 0 0
             children [
+              Pose {
+                translation 0.16 0 -0.03
+                children [
+                  HingeJoint {
+                    jointParameters HingeJointParameters {
+                      axis 0 1 0
+                      dampingConstant 0.5
+                    }
+                    device [
+                      RotationalMotor {
+                        name "grabber_roller_motor"
+                      }
+                    ]
+                    endPoint Solid {
+                      rotation 1 0 0 1.5707963267948968
+                      children [
+                        DEF GRABBER_ROLLER_GEOMETRY Shape {
+                          appearance PBRAppearance {
+                            baseColor 0 0.666667 0
+                            roughness 0.8
+                            metalness 0.1
+                          }
+                          geometry Cylinder {
+                            height 0.28
+                            radius 0.03
+                          }
+                        }
+                      ]
+                      boundingObject USE GRABBER_ROLLER_GEOMETRY
+                      physics Physics {
+                        mass 0.2
+                      }
+                    }
+                  }
+                ]
+              }
               DEF GRABBER_GEOMETRY Group {
                 children [
                   Pose {
@@ -112,7 +148,7 @@ Robot {
             ]
             boundingObject USE GRABBER_GEOMETRY
             physics Physics {
-              mass 20
+              mass 5
             }
           }
         }
