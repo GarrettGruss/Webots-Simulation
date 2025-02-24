@@ -19,8 +19,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.25742815193710694 0.4353757804592863 0.8626579138799534 1.2017393671250498
-  position -0.27606764306042547 -0.972290372302383 1.0889663308963717
+  orientation -0.20930486103565915 0.19374603707582888 0.9584643698459817 1.6901782695316037
+  position 0.5089748505726442 -2.2482703933471244 1.3616503734713
 }
 TexturedBackground {
 }
@@ -57,7 +57,14 @@ Robot {
             axis 0 1 0
             minStop -1.5
             maxStop 0.18
+            dampingConstant 0.5
           }
+          device [
+            RotationalMotor {
+              name "grabber_attitude"
+              maxTorque 100
+            }
+          ]
           endPoint Solid {
             translation 0.2286 0 0
             rotation 0 1 0 0
@@ -116,6 +123,7 @@ Robot {
         position 0.4156366003705947
         axis 0 1 0
         anchor 0.29 0.25 0
+        dampingConstant 1
       }
       device [
         DEF Motor RotationalMotor {
@@ -175,6 +183,7 @@ Robot {
         position 0.41563665647878545
         axis 0 1 0
         anchor -0.29 0.25 0
+        dampingConstant 1
       }
       device [
         RotationalMotor {
@@ -200,6 +209,7 @@ Robot {
         position 0.41563665647878545
         axis 0 1 0
         anchor 0 0.25 -0.003175
+        dampingConstant 1
       }
       device [
         RotationalMotor {
@@ -225,6 +235,7 @@ Robot {
         position 0.1385732245580487
         axis 0 1 0
         anchor -0.29 -0.25 0
+        dampingConstant 1
       }
       device [
         RotationalMotor {
@@ -250,6 +261,7 @@ Robot {
         position 0.1385732245580487
         axis 0 1 0
         anchor 0 -0.25 -0.003175
+        dampingConstant 1
       }
       device [
         RotationalMotor {
@@ -275,6 +287,7 @@ Robot {
         position 0.13857319605454727
         axis 0 1 0
         anchor 0.29 -0.25 0
+        dampingConstant 1
       }
       device [
         RotationalMotor {
@@ -354,7 +367,7 @@ Robot {
       boundingObject USE CHASSIS_GEOMETRY
       physics Physics {
         density -1
-        mass 10
+        mass 30
       }
     }
   ]

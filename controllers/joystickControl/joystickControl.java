@@ -6,7 +6,8 @@ import com.cyberbotics.webots.controller.Robot;
 public class joystickControl {
 
     private static final int TIME_STEP = 32;
-    private static final double MAX_SPEED = 6.28;
+    private static final double MAX_SPEED = 10;
+    private static final double GRABBER_ATTITUDE_SPEED = 100;
 
     public static void main(String[] args) {
         Robot robot = new Robot();
@@ -17,16 +18,19 @@ public class joystickControl {
         keyboard.enable(TIME_STEP);
 
         // Initialize motors
-        String[] wheelNames = {
+        String[] motorNames = {
         "front_left_motor", "front_right_motor", 
         "rear_left_motor", "rear_right_motor", 
-        "middle_left_motor", "middle_right_motor"};
-        Motor[] motors = new Motor[6];
+        "middle_left_motor", "middle_right_motor",
+        "grabber_attitude"};
+        
+        Motor[] motors = new Motor[motorNames.length];
 
-        for (int i = 0; i < wheelNames.length; i++) {
-            motors[i] = robot.getMotor(wheelNames[i]);
+        for (int i = 0; i < motorNames.length; i++) {
+            motors[i] = robot.getMotor(motorNames[i]);
             motors[i].setPosition(Double.POSITIVE_INFINITY); // Set motor to velocity control mode
-            motors[i].setVelocity(0.0); // Initialize motor velocity to 0
+            //motors[i].setVelocity(0.0); // Initialize motor velocity to 0
+            //motors[i].setAvailableTorque(0.0); // Force motors to not apply braking force when idle
         }
 
         while (robot.step(TIME_STEP) != -1) {
@@ -38,6 +42,7 @@ public class joystickControl {
             double backward = 0;
             double left = 0;
             double right = 0;
+            double grabber_attitude = 0;
             
             int key;
             while ((key = keyboard.getKey()) != -1) {  // Process all pressed keys
@@ -45,6 +50,7 @@ public class joystickControl {
                 if (key == Keyboard.DOWN) backward = 1;
                 if (key == Keyboard.LEFT) left = 1;
                 if (key == Keyboard.RIGHT) right = 1;
+                if (key == 32) grabber_attitude = -1; // if key is space
             }
             
             double leftStickY = forward - backward;
@@ -54,18 +60,22 @@ public class joystickControl {
             // Compute left and right motor speeds for skid-steer control
             double leftSpeed = (leftStickY + rightStickX) * MAX_SPEED;
             double rightSpeed = (leftStickY - rightStickX) * MAX_SPEED;
+            double grabber_attitude_speed = grabber_attitude * GRABBER_ATTITUDE_SPEED;
             
             // Limit wheel speeds to maximum
             leftSpeed = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, leftSpeed));
             rightSpeed = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, rightSpeed));
+            // grabber_attitude_speed = Math.max(-GRABBER_ATTITUDE_SPEED, Math.max(GRABBER_ATTITUDE_SPEED, grabber_attitude));
             
             // Set the same speed for both left-side and right-side motors
-            motors[0].setVelocity(leftSpeed);  // front_left_motor
-            motors[1].setVelocity(rightSpeed); // front_right_motor
-            motors[2].setVelocity(leftSpeed);  // rear_left_motor
-            motors[3].setVelocity(rightSpeed); // rear_right_motor
-            motors[4].setVelocity(leftSpeed); // middle_left_motor
-            motors[5].setVelocity(rightSpeed); // middle_right_motor
+            motors[0].setTorque(leftSpeed);  // front_left_motor
+            motors[1].setTorque(rightSpeed); // front_right_motor
+            motors[2].setTorque(leftSpeed);  // rear_left_motor
+            motors[3].setTorque(rightSpeed); // rear_right_motor
+            motors[4].setTorque(leftSpeed); // middle_left_motor
+            motors[5].setTorque(rightSpeed); // middle_right_motor
+            motors[6].setTorque(grabber_attitude_speed); // grabber_attitude
+            //System.out.println("grabber speed = " + grabber_attitude_speed);
         }
     }
 }
