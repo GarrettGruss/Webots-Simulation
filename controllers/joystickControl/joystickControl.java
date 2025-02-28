@@ -7,13 +7,13 @@ public class joystickControl {
 
     private static final int TIME_STEP = 32;
     private static final double MAX_SPEED = 10;
-    private static final double GRABBER_ATTITUDE_SPEED = 30;
-    private static final double GRABBER_ROLLER_SPEED = 10;
+    private static final double GRABBER_ATTITUDE_MAXSPEED = 30;
+    private static final double GRABBER_ROLLER_MAXSPEED = 10;
 
     public static void main(String[] args) {
         Robot robot = new Robot();
-        //Joystick joystick = robot.getJoystick();
-        // joystick.enable(TIME_STEP);
+        Joystick joystick = robot.getJoystick();
+        joystick.enable(TIME_STEP);
         
         Keyboard keyboard = new Keyboard();
         keyboard.enable(TIME_STEP);
@@ -42,8 +42,11 @@ public class joystickControl {
 
         while (robot.step(TIME_STEP) != -1) {
             // Read joystick axes
-            // double leftStickY = -joystick.getAxisValue(2); // Inverted Y-axis for forward/backward
-            // double rightStickX = joystick.getAxisValue(1); // X-axis for turning
+            double leftStickY = -joystick.getAxisValue(2) / 33000.00; // Inverted Y-axis for forward/backward
+            double rightStickX = joystick.getAxisValue(1) / 33000.00 ; // X-axis for turning
+            // System.out.println("left Stick Value: " + leftStickY + " Right Stick Value: " + rightStickX);
+            
+            int joystickButtonPressed = joystick.getPressedButton();
 
             double forward = 0;
             double backward = 0;
@@ -69,18 +72,20 @@ public class joystickControl {
                 }
             }
             
-            double leftStickY = forward - backward;
-            double rightStickX = right- left;
+            // double leftStickY = forward - backward;
+            // double rightStickX = right- left;
             // System.out.println("Joystick Values: Left Stick Y = " + leftStickY + ", Right Stick X = " + rightStickX);
  
             // Compute left and right motor speeds for skid-steer control
             double leftSpeed = (leftStickY + rightStickX) * MAX_SPEED;
             double rightSpeed = (leftStickY - rightStickX) * MAX_SPEED;
-            double grabber_attitude_speed = grabber_attitude * GRABBER_ATTITUDE_SPEED;
+            
             double grabber_roller_speed = 0;
-            if (grabber_roller_toggle) {
-              grabber_roller_speed = -GRABBER_ROLLER_SPEED;
+            if (joystickButtonPressed == 5) {
+              grabber_roller_speed = GRABBER_ROLLER_MAXSPEED;
             }
+            double grabber_attitude_speed = grabber_attitude * GRABBER_ATTITUDE_MAXSPEED;
+            // double grabber_roller_speed = 0;
             // System.out.println("grabber roller is: " + grabber_roller_toggle);
             
             // Limit wheel speeds to maximum
