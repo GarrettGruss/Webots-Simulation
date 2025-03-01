@@ -42,8 +42,11 @@ public class joystickControl {
 
         while (robot.step(TIME_STEP) != -1) {
             // Read joystick axes
-            double leftStickY = -joystick.getAxisValue(2) / 33000.00; // Inverted Y-axis for forward/backward
-            double rightStickX = joystick.getAxisValue(1) / 33000.00 ; // X-axis for turning
+            
+            double leftStickX = joystick.getAxisValue(1) / 33000.00;
+            double leftStickY = joystick.getAxisValue(0) / 33000.00; // Inverted Y-axis for forward/backward
+            double rightStickX = joystick.getAxisValue(3) / 33000.00; // X-axis for turning
+            double rightStickY = joystick.getAxisValue(2) / 33000.00;
             // System.out.println("left Stick Value: " + leftStickY + " Right Stick Value: " + rightStickX);
             
             int joystickButtonPressed = joystick.getPressedButton();
@@ -77,8 +80,8 @@ public class joystickControl {
             // System.out.println("Joystick Values: Left Stick Y = " + leftStickY + ", Right Stick X = " + rightStickX);
  
             // Compute left and right motor speeds for skid-steer control
-            double leftSpeed = (leftStickY + rightStickX) * MAX_SPEED;
-            double rightSpeed = (leftStickY - rightStickX) * MAX_SPEED;
+            double leftSpeed = (-leftStickY + leftStickX) * MAX_SPEED;
+            double rightSpeed = (-leftStickY - leftStickX) * MAX_SPEED;
             
             double grabber_roller_speed = 0;
             if (joystickButtonPressed == 5) {
