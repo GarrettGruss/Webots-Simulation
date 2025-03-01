@@ -19,8 +19,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.11861098593050584 -0.9032109534356926 -0.41248200883236147 5.666739901082706
-  position -0.9359785531492173 -0.4306200595658316 1.6277820461812151
+  orientation -0.23082907520214616 -0.307179981723768 0.9232325800520189 4.916831973397439
+  position -0.6810511419774485 2.8018298738155156 1.9546535916118577
   follow "robot"
 }
 TexturedBackground {
@@ -33,13 +33,79 @@ RectangleArena {
   wallHeight 1
 }
 Ball {
-  translation 1.39 0 0.5525
+  translation 0.38 0 1.5925
   radius 0.205
 }
 Robot {
   translation 0.0111246 5.1261e-07 0.325713
   rotation -0.03709331611786788 -0.003989023464898968 -0.9993038444793337 0.00041684231989750785
   children [
+    Pose {
+      children [
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 1 0
+          }
+          endPoint Solid {
+            rotation 0 1 0 0
+            children [
+              SliderJoint {
+                jointParameters JointParameters {
+                  minStop -1
+                  maxStop 1
+                  dampingConstant 5000
+                  staticFriction 1000
+                }
+                device [
+                  LinearMotor {
+                    name "linearActuator1"
+                    maxVelocity 1
+                    maxForce 1000
+                  }
+                ]
+                endPoint Solid {
+                  translation 0 0 0.1
+                  children [
+                    HingeJoint {
+                      jointParameters HingeJointParameters {
+                        axis 0 1 0
+                      }
+                      endPoint SolidReference {
+                        solidName "grabber_solid"
+                      }
+                    }
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0 1 0
+                        roughness 1
+                      }
+                      geometry Sphere {
+                        radius 0.05
+                      }
+                    }
+                  ]
+                  name "solid(1)"
+                  physics Physics {
+                  }
+                }
+              }
+            ]
+            name "solid(2)"
+            physics Physics {
+            }
+          }
+        }
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0 0
+            roughness 1
+          }
+          geometry Sphere {
+            radius 0.05
+          }
+        }
+      ]
+    }
     Pose {
       translation 0.37 0 0.08
       rotation 0 -1 0 1.5707963267948968
@@ -57,8 +123,8 @@ Robot {
         HingeJoint {
           jointParameters HingeJointParameters {
             axis 0 1 0
-            minStop -1.5
-            maxStop 0.18
+            minStop -0.1
+            maxStop 1
             dampingConstant 0.5
           }
           device [
@@ -68,17 +134,43 @@ Robot {
             }
           ]
           endPoint Solid {
+            rotation 0 1 0 0
             children [
               DEF GRABBER_GEOMETRY Group {
                 children [
                   Pose {
-                    translation 0.508 0 0.11
+                    translation 0.558 -0.23 0.11
                     children [
                       Shape {
                         appearance BrushedAluminium {
                         }
                         geometry Box {
-                          size 0.1524 0.003175 0.4064
+                          size 0.1524 0.003175 0.46
+                        }
+                      }
+                    ]
+                  }
+                  Pose {
+                    translation 0.558 -3.69866e-17 0.34
+                    rotation 1 0 0 1.5707963267948968
+                    children [
+                      Shape {
+                        appearance BrushedAluminium {
+                        }
+                        geometry Box {
+                          size 0.1524 0.003175 0.46
+                        }
+                      }
+                    ]
+                  }
+                  Pose {
+                    translation 0.558 0.23 0.11
+                    children [
+                      Shape {
+                        appearance BrushedAluminium {
+                        }
+                        geometry Box {
+                          size 0.1524 0.003175 0.46
                         }
                       }
                     ]
@@ -164,40 +256,8 @@ Robot {
                 ]
               }
             ]
-            boundingObject DEF GRABBER_GEOMETRY Group {
-              children [
-                Pose {
-                  translation 0.47 0 0
-                  children [
-                    DEF GRABBER_WIDTH Shape {
-                      appearance BrushedAluminium {
-                      }
-                      geometry Box {
-                        size 0.0254 0.4064 0.0254
-                      }
-                    }
-                  ]
-                }
-                Pose {
-                  translation 0.229 -0.215 0
-                  children [
-                    DEF GRABBER_LENGTH Shape {
-                      appearance BrushedAluminium {
-                      }
-                      geometry Box {
-                        size 0.508 0.0254 0.0254
-                      }
-                    }
-                  ]
-                }
-                Pose {
-                  translation 0.229 0.215 0
-                  children [
-                    USE GRABBER_LENGTH
-                  ]
-                }
-              ]
-            }
+            name "grabber_solid"
+            boundingObject USE GRABBER_GEOMETRY
             physics Physics {
               mass 5
             }

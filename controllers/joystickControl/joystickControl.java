@@ -9,6 +9,7 @@ public class joystickControl {
     private static final double MAX_SPEED = 10;
     private static final double GRABBER_ATTITUDE_MAXSPEED = 30;
     private static final double GRABBER_ROLLER_MAXSPEED = 10;
+    private static final double LINEAR_ACTUATOR_MAXSPEED = 1;
 
     public static void main(String[] args) {
         Robot robot = new Robot();
@@ -23,7 +24,8 @@ public class joystickControl {
         "front_left_motor", "front_right_motor", 
         "rear_left_motor", "rear_right_motor", 
         "middle_left_motor", "middle_right_motor",
-        "grabber_attitude", "grabber_roller_motor"};
+        "grabber_attitude", "grabber_roller_motor",
+        "linearActuator1"};
         
         Motor[] motors = new Motor[motorNames.length];
 
@@ -36,9 +38,9 @@ public class joystickControl {
         
         boolean grabber_roller_toggle = false;
         
-        System.out.println("Use arrow keys to drive");
-        System.out.println("Use Space to lift ball grabber");
-        System.out.println("Press End to toggle roller");
+        System.out.println("Use left joystick to drive");
+        System.out.println("Use right joystick to control grabber");
+        System.out.println("Use right bumber to toggle roller");
 
         while (robot.step(TIME_STEP) != -1) {
             // Read joystick axes
@@ -82,6 +84,7 @@ public class joystickControl {
             // Compute left and right motor speeds for skid-steer control
             double leftSpeed = (-leftStickY + leftStickX) * MAX_SPEED;
             double rightSpeed = (-leftStickY - leftStickX) * MAX_SPEED;
+            double linearActuatorSpeed = rightStickY * LINEAR_ACTUATOR_MAXSPEED;
             
             double grabber_roller_speed = 0;
             if (joystickButtonPressed == 5) {
@@ -105,6 +108,8 @@ public class joystickControl {
             motors[5].setTorque(rightSpeed); // middle_right_motor
             motors[6].setTorque(grabber_attitude_speed); // grabber_attitude
             motors[7].setTorque(grabber_roller_speed); // grabber_roller_motor
+            motors[8].setVelocity(linearActuatorSpeed);
+            // System.out.println(linearActuatorSpeed);
             //System.out.println("grabber speed = " + grabber_attitude_speed);
         }
     }
