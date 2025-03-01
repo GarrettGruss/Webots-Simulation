@@ -84,7 +84,7 @@ public class joystickControl {
             // Compute left and right motor speeds for skid-steer control
             double leftSpeed = (-leftStickY + leftStickX) * MAX_SPEED;
             double rightSpeed = (-leftStickY - leftStickX) * MAX_SPEED;
-            double linearActuatorSpeed = rightStickY * LINEAR_ACTUATOR_MAXSPEED;
+            double linearActuatorSpeed = -rightStickY * LINEAR_ACTUATOR_MAXSPEED;
             
             double grabber_roller_speed = 0;
             if (joystickButtonPressed == 5) {
