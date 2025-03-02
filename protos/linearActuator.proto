@@ -1,0 +1,164 @@
+#VRML_SIM R2023b utf8
+# Linear Actuator with slider and hinge joints
+# template language: javascript
+
+PROTO linearActuator [
+  field SFVec3f    translation    0 0 0
+  field SFRotation rotation       0 1 0 0
+  field SFString   motorName      "linearActuator1"
+  field SFFloat    maxForce       1000
+  field SFFloat    maxVelocity    1
+  field SFString   endJoint       ""
+  field SFFloat    strokeLength         1
+  field SFVec3f    strokeLengthVec     0 0 1
+  field SFVec3f    halfStrokeLength     0 0 0.5
+  field SFVec3f    negHalfStrokeLength  0 0 -0.5
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      Pose {
+        children [
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 1 0
+            }
+            endPoint Solid {
+              rotation 0 1 0 0
+              children [
+                Pose {
+                  rotation 1 0 0 1.5707963267948968
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.8 0.8 0.8
+                        metalness 1
+                        roughness 0.2
+                      }
+                      geometry Cylinder {
+                        height 0.02
+                        radius 0.02
+                        subdivision 8
+                      }
+                    }
+                  ]
+                }
+                Pose {
+                  translation IS halfStrokeLength
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.8 0.8 0.8
+                        metalness 1
+                        roughness 0.2
+                      }
+                      geometry Cylinder {
+                        height IS strokeLength
+                        radius 0.01
+                        subdivision 8
+                      }
+                    }
+                  ]
+                }
+                Pose {
+                  translation -0.02 0 0.025
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.8 0.8 0.8
+                        metalness 1
+                        roughness 0.2
+                      }
+                      geometry Cylinder {
+                        height 0.05
+                        radius 0.01
+                        subdivision 8
+                      }
+                    }
+                  ]
+                }
+                SliderJoint {
+                  jointParameters JointParameters {
+                    minStop 0
+                    maxStop IS strokeLength
+                    dampingConstant 5000
+                    staticFriction 1000
+                  }
+                  device [
+                    LinearMotor {
+                      name IS motorName
+                      maxVelocity IS maxVelocity
+                      maxForce IS maxForce
+                    }
+                  ]
+                  endPoint Solid {
+                    translation IS strokeLengthVec
+                    children [
+                      Pose {
+                        translation IS negHalfStrokeLength
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.8 0.8 0.8
+                              metalness 1
+                              roughness 0.2
+                            }
+                            geometry Cylinder {
+                              height IS strokeLength
+                              radius 0.005
+                              subdivision 8
+                            }
+                          }
+                        ]
+                      }
+                      Pose {
+                        rotation 1 0 0 1.5707963267948968
+                        translation 0 0 0
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.8 0.8 0.8
+                              metalness 1
+                              roughness 0.2
+                            }
+                            geometry Cylinder {
+                              height 0.02
+                              radius 0.02
+                              subdivision 8
+                            }
+                          }
+                        ]
+                      }
+                      HingeJoint {
+                        jointParameters HingeJointParameters {
+                          axis 0 1 0
+                        }
+                        endPoint SolidReference {
+                          solidName IS endJoint
+                        }
+                      }
+                    ]
+                    name "linearActuatorBase2"
+                    physics Physics {
+                        mass 0
+                    }
+                  }
+                }
+              ]
+              name "linearActuatorArm"
+              physics Physics {
+                mass 0
+              }
+            }
+          }
+        ]
+      }
+    ]
+    name "linearActuatorBase1"
+    physics Physics {
+        mass 0
+    }
+  }
+}

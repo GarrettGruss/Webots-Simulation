@@ -4,7 +4,6 @@ simulationViewPerspectives: 000000ff00000001000000020000024b000002ff010000000201
 sceneTreePerspectives: 000000ff000000010000000300000026000000c0000000fa0100000002010000000200
 maximizedDockId: -1
 centralWidgetVisible: 1
-renderingMode: PLAIN
 orthographicViewHeight: 1
 textFiles: 1 "controllers/joystickControl/joystickControl.java" "protos/linearActuator.proto"
 consoles: Console:All:All
