@@ -9,10 +9,7 @@ PROTO linearActuator [
   field SFFloat    maxForce       1000
   field SFFloat    maxVelocity    1
   field SFString   endJoint       ""
-  field SFFloat    strokeLength         1
-  field SFVec3f    strokeLengthVec     0 0 1
-  field SFVec3f    halfStrokeLength     0 0 0.5
-  field SFVec3f    negHalfStrokeLength  0 0 -0.5
+  field SFFloat    strokeLength   0.3048
 ]
 {
   Solid {
@@ -46,7 +43,7 @@ PROTO linearActuator [
                   ]
                 }
                 Pose {
-                  translation IS halfStrokeLength
+                  translation 0 0 %<= fields.strokeLength.value / 2;>%
                   children [
                     Shape {
                       appearance PBRAppearance {
@@ -94,10 +91,10 @@ PROTO linearActuator [
                     }
                   ]
                   endPoint Solid {
-                    translation IS strokeLengthVec
+                    translation 0 0 %<= fields.strokeLength.value;>%
                     children [
                       Pose {
-                        translation IS negHalfStrokeLength
+                        translation 0 0 %<= -fields.strokeLength.value / 2;>%
                         children [
                           Shape {
                             appearance PBRAppearance {
@@ -158,7 +155,7 @@ PROTO linearActuator [
     ]
     name "linearActuatorBase1"
     physics Physics {
-        mass 0
+        mass -1
     }
   }
 }
