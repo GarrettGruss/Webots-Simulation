@@ -8,8 +8,9 @@ PROTO linearActuator [
   field SFString   motorName      "linearActuator1"
   field SFFloat    maxForce       1000
   field SFFloat    maxVelocity    1
-  field SFString   endJoint       ""
+  field SFString   endJointUpperActuator ""
   field SFFloat    strokeLength   0.3048
+  field SFFloat    mass           0.5
 ]
 {
   Solid {
@@ -25,56 +26,60 @@ PROTO linearActuator [
             endPoint Solid {
               rotation 0 1 0 0
               children [
-                Pose {
-                  rotation 1 0 0 1.5707963267948968
-                  children [
-                    Shape {
-                      appearance PBRAppearance {
-                        baseColor 0.8 0.8 0.8
-                        metalness 1
-                        roughness 0.2
-                      }
-                      geometry Cylinder {
-                        height 0.02
-                        radius 0.02
-                        subdivision 8
-                      }
-                    }
-                  ]
-                }
-                Pose {
-                  translation 0 0 %<= fields.strokeLength.value / 2;>%
-                  children [
-                    Shape {
-                      appearance PBRAppearance {
-                        baseColor 0.8 0.8 0.8
-                        metalness 1
-                        roughness 0.2
-                      }
-                      geometry Cylinder {
-                        height IS strokeLength
-                        radius 0.01
-                        subdivision 8
-                      }
-                    }
-                  ]
-                }
-                Pose {
-                  translation -0.02 0 0.025
-                  children [
-                    Shape {
-                      appearance PBRAppearance {
-                        baseColor 0.8 0.8 0.8
-                        metalness 1
-                        roughness 0.2
-                      }
-                      geometry Cylinder {
-                        height 0.05
-                        radius 0.01
-                        subdivision 8
-                      }
-                    }
-                  ]
+                DEF LOWER_ACTUATOR_GEOMETRY Group {
+                    children [
+                        Pose {
+                        rotation 1 0 0 1.5707963267948968
+                        children [
+                            Shape {
+                                appearance PBRAppearance {
+                                    baseColor 0.8 0.8 0.8
+                                    metalness 1
+                                    roughness 0.2
+                                }
+                                geometry Cylinder {
+                                    height 0.02
+                                    radius 0.02
+                                    subdivision 8
+                                }
+                            }
+                        ]
+                        }
+                        Pose {
+                        translation 0 0 %<= fields.strokeLength.value / 2;>%
+                        children [
+                            Shape {
+                            appearance PBRAppearance {
+                                baseColor 0.8 0.8 0.8
+                                metalness 1
+                                roughness 0.2
+                            }
+                            geometry Cylinder {
+                                height IS strokeLength
+                                radius 0.01
+                                subdivision 8
+                            }
+                            }
+                        ]
+                        }
+                        Pose {
+                        translation -0.02 0 0.025
+                        children [
+                            Shape {
+                            appearance PBRAppearance {
+                                baseColor 0.8 0.8 0.8
+                                metalness 1
+                                roughness 0.2
+                            }
+                            geometry Cylinder {
+                                height 0.05
+                                radius 0.01
+                                subdivision 8
+                            }
+                            }
+                        ]
+                        }
+                    ]
                 }
                 SliderJoint {
                   jointParameters JointParameters {
@@ -93,69 +98,75 @@ PROTO linearActuator [
                   endPoint Solid {
                     translation 0 0 %<= fields.strokeLength.value;>%
                     children [
-                      Pose {
-                        translation 0 0 %<= -fields.strokeLength.value / 2;>%
-                        children [
-                          Shape {
-                            appearance PBRAppearance {
-                              baseColor 0.8 0.8 0.8
-                              metalness 1
-                              roughness 0.2
-                            }
-                            geometry Cylinder {
-                              height IS strokeLength
-                              radius 0.005
-                              subdivision 8
-                            }
-                          }
-                        ]
-                      }
-                      Pose {
-                        rotation 1 0 0 1.5707963267948968
-                        translation 0 0 0
-                        children [
-                          Shape {
-                            appearance PBRAppearance {
-                              baseColor 0.8 0.8 0.8
-                              metalness 1
-                              roughness 0.2
-                            }
-                            geometry Cylinder {
-                              height 0.02
-                              radius 0.02
-                              subdivision 8
-                            }
-                          }
-                        ]
-                      }
+                        DEF UPPER_ACTUATOR_GEOMETRY Group {
+                            children [
+                                Pose {
+                                    translation 0 0 %<= -fields.strokeLength.value / 2;>%
+                                    children [
+                                    Shape {
+                                        appearance PBRAppearance {
+                                        baseColor 0.8 0.8 0.8
+                                        metalness 1
+                                        roughness 0.2
+                                        }
+                                        geometry Cylinder {
+                                        height IS strokeLength
+                                        radius 0.005
+                                        subdivision 8
+                                        }
+                                    }
+                                    ]
+                                }
+                                Pose {
+                                    rotation 1 0 0 1.5707963267948968
+                                    translation 0 0 0
+                                    children [
+                                    Shape {
+                                        appearance PBRAppearance {
+                                        baseColor 0.8 0.8 0.8
+                                        metalness 1
+                                        roughness 0.2
+                                        }
+                                        geometry Cylinder {
+                                        height 0.02
+                                        radius 0.02
+                                        subdivision 8
+                                        }
+                                    }
+                                    ]
+                                }
+                            ]
+                        }
                       HingeJoint {
                         jointParameters HingeJointParameters {
                           axis 0 1 0
                         }
                         endPoint SolidReference {
-                          solidName IS endJoint
+                          solidName IS endJointUpperActuator
                         }
                       }
                     ]
                     name "linearActuatorBase2"
+                    boundingObject USE UPPER_ACTUATOR_GEOMETRY
                     physics Physics {
-                        mass 0
+                        mass -1
                     }
                   }
                 }
               ]
               name "linearActuatorArm"
+              boundingObject USE LOWER_ACTUATOR_GEOMETRY
               physics Physics {
-                mass 0
+                mass -1
               }
             }
           }
         ]
       }
     ]
-    name "linearActuatorBase1"
+    name IS motorName
     physics Physics {
-        mass -1
+        mass IS mass
     }
   }
 }
