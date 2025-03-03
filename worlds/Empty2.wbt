@@ -20,8 +20,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.15761662961409123 -0.14577042299695553 0.9766821293790436 4.610835512170372
-  position 0.24925815797876266 1.8008911081943717 1.131664987923317
+  orientation -0.0845019735218857 -0.09645798580974738 0.9917435522575547 4.836110891537281
+  position 0.1344750636028347 1.6227079743427704 0.8039180201034246
   follow "robot"
 }
 TexturedBackground {
@@ -42,10 +42,10 @@ Robot {
   rotation -0.03709331611786788 -0.003989023464898968 -0.9993038444793337 0.00041684231989750785
   children [
     linearActuator {
-      translation 0.2 0.24 0.11
-      rotation 0 1 0 0.785398
-      endJoint "grabber_solid"
-      strokeLength 0.3048
+      translation 0.21 0.22 0.13
+      rotation 0 1 0 1.5707963267948968
+      endJointUpperActuator "grabber_solid"
+      strokeLength 0.1524
     }
     Pose {
       translation 0.37 0 0.08
