@@ -20,8 +20,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.0845019735218857 -0.09645798580974738 0.9917435522575547 4.836110891537281
-  position 0.1344750636028347 1.6227079743427704 0.8039180201034246
+  orientation -0.18010887737345782 -0.30085926663896306 0.9365065370667405 5.1456424762914885
+  position -0.6594218170363185 1.879243251262194 1.3417167469634437
   follow "robot"
 }
 TexturedBackground {
@@ -42,10 +42,10 @@ Robot {
   rotation -0.03709331611786788 -0.003989023464898968 -0.9993038444793337 0.00041684231989750785
   children [
     linearActuator {
-      translation 0.21 0.22 0.13
+      translation 0.13 0.22 0.13
       rotation 0 1 0 1.5707963267948968
       endJointUpperActuator "grabber_solid"
-      strokeLength 0.1524
+      startingStroke 0.08
     }
     Pose {
       translation 0.37 0 0.08
@@ -64,7 +64,7 @@ Robot {
         HingeJoint {
           jointParameters HingeJointParameters {
             axis 0 1 0
-            minStop -0.1
+            minStop -0.3
             maxStop 1
             dampingConstant 0.5
           }
@@ -190,7 +190,8 @@ Robot {
                       ]
                       boundingObject USE GRABBER_ROLLER_GEOMETRY
                       physics Physics {
-                        mass 0.2
+                        density -1
+                        mass 1
                       }
                     }
                   }
@@ -200,6 +201,7 @@ Robot {
             name "grabber_solid"
             boundingObject USE GRABBER_GEOMETRY
             physics Physics {
+              density -1
               mass 5
             }
           }

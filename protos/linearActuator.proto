@@ -82,8 +82,8 @@ children [
         }
         SliderJoint {
             jointParameters JointParameters {
-                minStop 0
-                maxStop IS strokeLength
+                minStop %<= -fields.startingStroke.value>%
+                maxStop %<= fields.strokeLength.value - fields.startingStroke.value>%
                 dampingConstant 5000
                 staticFriction 1000
             }
@@ -95,7 +95,7 @@ children [
             }
             ]
             endPoint Solid {
-            translation 0 0 %<= fields.strokeLength.value;>%
+            translation 0 0 %<= fields.strokeLength.value + fields.startingStroke.value;>%
             children [
                 DEF UPPER_ACTUATOR_GEOMETRY Group {
                     children [
