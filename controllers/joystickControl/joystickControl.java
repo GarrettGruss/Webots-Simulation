@@ -9,7 +9,7 @@ public class joystickControl {
     private static final double MAX_SPEED = 10;
     private static final double GRABBER_ATTITUDE_MAXSPEED = 30;
     private static final double GRABBER_ROLLER_MAXSPEED = 10;
-    private static final double LINEAR_ACTUATOR_MAXSPEED = 1;
+    private static final double LINEAR_ACTUATOR_MAXSPEED = 0.014;
 
     public static void main(String[] args) {
         Robot robot = new Robot();

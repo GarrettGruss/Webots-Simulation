@@ -44,6 +44,7 @@ Robot {
     linearActuator {
       translation 0.13 0.22 0.13
       rotation 0 1 0 1.5707963267948968
+      maxVelocity 0.014
       endJointUpperActuator "grabber_solid"
       startingStroke 0.08
     }
