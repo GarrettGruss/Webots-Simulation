@@ -1,0 +1,151 @@
+#VRML_SIM R2023b utf8
+# andymark 6in HiGrip Wheel, variable motor settings
+# template language: javascript
+
+PROTO wheel [
+  field SFVec3f    translation    0 0 0
+  field SFRotation rotation       0 1 0 0
+  field SFString   motorName      "motor"
+  field SFFloat    maxVelocity    30
+  field SFFloat    maxTorque      30
+  field SFFloat    mass           0.5
+]
+
+{
+Pose {
+    translation IS translation
+    rotation IS rotation
+    children [
+    HingeJoint {
+        jointParameters HingeJointParameters {
+        position 0
+        axis 0 1 0
+        dampingConstant 1
+        }
+        device [
+        DEF Motor RotationalMotor {
+            name IS motorName
+            maxVelocity IS maxVelocity
+            maxTorque IS maxTorque
+        }
+        ]
+        endPoint DEF WHEEL1 Solid {
+        rotation 1 0 0 1.5707963267948968
+        children [
+            Shape {
+            appearance DEF PLASTIC_APPEARANCE PBRAppearance {
+                baseColor 0.1 0.1 0.1
+                roughness 0.2
+                metalness 0.2
+            }
+            geometry Cylinder {
+                height 0.05
+                radius 0.02
+            }
+            }
+            Pose {
+            rotation 0 0 1 -2.513
+            children [
+                Pose {
+                translation 0 0.03 0
+                children [
+                    Shape {
+                    appearance USE PLASTIC_APPEARANCE
+                    geometry Box {
+                        size 0.02 0.06 0.02
+                    }
+                    }
+                ]
+                }
+            ]
+            }
+            Pose {
+            rotation 0 0 1 -1.257
+            children [
+                Pose {
+                translation 0 0.03 0
+                children [
+                    Shape {
+                    appearance USE PLASTIC_APPEARANCE
+                    geometry Box {
+                        size 0.02 0.06 0.02
+                    }
+                    }
+                ]
+                }
+            ]
+            }
+            Pose {
+            rotation 0 0 1 0
+            children [
+                Pose {
+                translation 0 0.03 0
+                children [
+                    Shape {
+                    appearance USE PLASTIC_APPEARANCE
+                    geometry Box {
+                        size 0.02 0.06 0.02
+                    }
+                    }
+                ]
+                }
+            ]
+            }
+            Pose {
+            rotation 0 0 1 1.257
+            children [
+                Pose {
+                translation 0 0.03 0
+                children [
+                    Shape {
+                    appearance USE PLASTIC_APPEARANCE
+                    geometry Box {
+                        size 0.02 0.06 0.02
+                    }
+                    }
+                ]
+                }
+            ]
+            }
+            Pose {
+            rotation 0 0 1 2.513
+            children [
+                Pose {
+                translation 0 0.03 0
+                children [
+                    Shape {
+                    appearance USE PLASTIC_APPEARANCE
+                    geometry Box {
+                        size 0.02 0.06 0.02
+                    }
+                    }
+                ]
+                }
+            ]
+            }
+            PipeBoundingObject {
+            height 0.05
+            radius 0.0762
+            thickness 0.02
+            }
+        ]
+        name "motor_shape"
+        contactMaterial ""
+        boundingObject DEF WHEEL Shape {
+            appearance USE PLASTIC_APPEARANCE
+            geometry Cylinder {
+            height 0.05
+            radius 0.0762
+            subdivision 32
+            }
+            castShadows FALSE
+        }
+        physics DEF WHEEL_PH Physics {
+            density -1
+            mass IS mass
+        }
+        }
+    }
+    ]
+}
+}

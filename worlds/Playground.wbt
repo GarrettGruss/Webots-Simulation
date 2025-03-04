@@ -6,6 +6,7 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/BrushedAluminium.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/balls/protos/Ball.proto"
 EXTERNPROTO "../protos/linearActuator.proto"
+EXTERNPROTO "../protos/wheel.proto"
 
 WorldInfo {
   optimalThreadCount 8
@@ -20,8 +21,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.18010887737345782 -0.30085926663896306 0.9365065370667405 5.1456424762914885
-  position -0.6594218170363185 1.879243251262194 1.3417167469634437
+  orientation 0.2912928471205609 -0.5080772940618047 -0.810559029605637 5.051941345877433
+  position -0.4756213488598634 -0.8095732557838006 1.0698616928330067
   follow "robot"
 }
 TexturedBackground {
@@ -41,6 +42,30 @@ Robot {
   translation 0.0111246 5.1261e-07 0.325713
   rotation -0.03709331611786788 -0.003989023464898968 -0.9993038444793337 0.00041684231989750785
   children [
+    wheel {
+      translation 0.29 0.25 0
+      motorName "front_left_motor"
+    }
+    wheel {
+      translation 0 0.25 -0.003175
+      motorName "middle_left_motor"
+    }
+    wheel {
+      translation 0 -0.25 -0.003175
+      motorName "middle_right_motor"
+    }
+    wheel {
+      translation -0.29 0.25 0
+      motorName "rear_left_motor"
+    }
+    wheel {
+      translation 0.29 -0.25 0
+      motorName "front_right_motor"
+    }
+    wheel {
+      translation -0.29 -0.25 0
+      motorName "rear_right_motor"
+    }
     linearActuator {
       translation 0.13 0.22 0.13
       rotation 0 1 0 1.5707963267948968
@@ -208,196 +233,6 @@ Robot {
           }
         }
       ]
-    }
-    HingeJoint {
-      jointParameters HingeJointParameters {
-        position 0.4156366003705947
-        axis 0 1 0
-        anchor 0.29 0.25 0
-        dampingConstant 1
-      }
-      device [
-        DEF Motor RotationalMotor {
-          name "front_left_motor"
-          maxVelocity 30
-          maxTorque 30
-        }
-      ]
-      endPoint DEF WHEEL1 Solid {
-        translation 0.29 0.25 0
-        rotation 1 -1.1775693440128302e-16 3.925231146709434e-17 1.5707963267948981
-        children [
-          DEF WHEEL Shape {
-            appearance PBRAppearance {
-              baseColorMap ImageTexture {
-                url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/textures/tire_rubber/car_tire_rubber_base_color.jpg"
-                ]
-              }
-              roughnessMap ImageTexture {
-                url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/textures/tire_rubber/car_tire_rubber_roughness.jpg"
-                ]
-              }
-              metalness 0
-              normalMap ImageTexture {
-                url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/textures/tire_rubber/car_tire_rubber_normal.jpg"
-                ]
-              }
-              normalMapFactor 8
-              occlusionMap ImageTexture {
-                url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/textures/tire_rubber/car_tire_rubber_occlusion.jpg"
-                ]
-              }
-              occlusionMapStrength 8
-            }
-            geometry Cylinder {
-              height 0.05
-              radius 0.0762
-              subdivision 32
-            }
-          }
-        ]
-        name "front_left_motor"
-        contactMaterial ""
-        boundingObject USE WHEEL
-        physics DEF WHEEL_PH Physics {
-          density -1
-          mass 0.8
-        }
-      }
-    }
-    HingeJoint {
-      jointParameters HingeJointParameters {
-        position 0.41563665647878545
-        axis 0 1 0
-        anchor -0.29 0.25 0
-        dampingConstant 1
-      }
-      device [
-        RotationalMotor {
-          name "rear_left_motor"
-          maxVelocity 30
-          maxTorque 30
-        }
-      ]
-      endPoint Solid {
-        translation -0.29 0.25 0
-        rotation 1 0 0 1.5707963267948968
-        children [
-          USE WHEEL
-        ]
-        name "rear_left_motor"
-        contactMaterial ""
-        boundingObject USE WHEEL
-        physics USE WHEEL_PH
-      }
-    }
-    HingeJoint {
-      jointParameters HingeJointParameters {
-        position 0.41563665647878545
-        axis 0 1 0
-        anchor 0 0.25 -0.003175
-        dampingConstant 1
-      }
-      device [
-        RotationalMotor {
-          name "middle_left_motor"
-          maxVelocity 30
-          maxTorque 30
-        }
-      ]
-      endPoint Solid {
-        translation 0 0.25 -0.003175
-        rotation 1 0 0 1.5707963267948968
-        children [
-          USE WHEEL
-        ]
-        name "middle_left_motor"
-        contactMaterial ""
-        boundingObject USE WHEEL
-        physics USE WHEEL_PH
-      }
-    }
-    HingeJoint {
-      jointParameters HingeJointParameters {
-        position 0.1385732245580487
-        axis 0 1 0
-        anchor -0.29 -0.25 0
-        dampingConstant 1
-      }
-      device [
-        RotationalMotor {
-          name "rear_right_motor"
-          maxVelocity 30
-          maxTorque 30
-        }
-      ]
-      endPoint Solid {
-        translation -0.29 -0.25 0
-        rotation 1 3.925231146709438e-17 0 1.5707963267948966
-        children [
-          USE WHEEL
-        ]
-        name "rear_right_motor"
-        contactMaterial ""
-        boundingObject USE WHEEL
-        physics USE WHEEL_PH
-      }
-    }
-    HingeJoint {
-      jointParameters HingeJointParameters {
-        position 0.1385732245580487
-        axis 0 1 0
-        anchor 0 -0.25 -0.003175
-        dampingConstant 1
-      }
-      device [
-        RotationalMotor {
-          name "middle_right_motor"
-          maxVelocity 30
-          maxTorque 30
-        }
-      ]
-      endPoint Solid {
-        translation 0 -0.25 -0.003175
-        rotation 1 -1.962615573354719e-17 0 1.5707963267948966
-        children [
-          USE WHEEL
-        ]
-        name "middle_right_motor"
-        contactMaterial ""
-        boundingObject USE WHEEL
-        physics USE WHEEL_PH
-      }
-    }
-    HingeJoint {
-      jointParameters HingeJointParameters {
-        position 0.13857319605454727
-        axis 0 1 0
-        anchor 0.29 -0.25 0
-        dampingConstant 1
-      }
-      device [
-        RotationalMotor {
-          name "front_right_motor"
-          maxVelocity 30
-          maxTorque 30
-        }
-      ]
-      endPoint Solid {
-        translation 0.29 -0.25 0
-        rotation 1 4.906538933386797e-17 0 1.5707963267948966
-        children [
-          USE WHEEL
-        ]
-        name "front_right_motor"
-        contactMaterial ""
-        boundingObject USE WHEEL
-        physics USE WHEEL_PH
-      }
     }
     Solid {
       children [
