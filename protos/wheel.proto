@@ -2,6 +2,8 @@
 # andymark 6in HiGrip Wheel, variable motor settings
 # template language: javascript
 
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/bounding_objects/protos/PipeBoundingObject.proto"
+
 PROTO wheel [
   field SFVec3f    translation    0 0 0
   field SFRotation rotation       0 1 0 0
@@ -12,6 +14,7 @@ PROTO wheel [
 ]
 
 {
+
 Pose {
     translation IS translation
     rotation IS rotation
@@ -23,13 +26,13 @@ Pose {
         dampingConstant 1
         }
         device [
-        DEF Motor RotationalMotor {
+        RotationalMotor {
             name IS motorName
             maxVelocity IS maxVelocity
             maxTorque IS maxTorque
         }
         ]
-        endPoint DEF WHEEL1 Solid {
+        endPoint Solid {
         rotation 1 0 0 1.5707963267948968
         children [
             Shape {
@@ -129,7 +132,7 @@ Pose {
             thickness 0.02
             }
         ]
-        name "motor_shape"
+        name IS motorName
         contactMaterial ""
         boundingObject DEF WHEEL Shape {
             appearance USE PLASTIC_APPEARANCE
