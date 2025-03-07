@@ -10,6 +10,14 @@ public class joystickControl {
     private static final double GRABBER_ATTITUDE_MAXSPEED = 30;
     private static final double GRABBER_ROLLER_MAXSPEED = 10;
     private static final double LINEAR_ACTUATOR_MAXSPEED = 0.014;
+    private static final double DEAD_ZONE = 0.05;
+
+      public static double applyDeadZone(double value, double deadZone) {
+        if (Math.abs(value) < deadZone) {
+            return 0.0;
+        }
+        return value;
+      }
 
     public static void main(String[] args) {
         Robot robot = new Robot();
@@ -45,11 +53,12 @@ public class joystickControl {
         while (robot.step(TIME_STEP) != -1) {
             // Read joystick axes
             
-            double leftStickX = joystick.getAxisValue(1) / 33000.00;
-            double leftStickY = joystick.getAxisValue(0) / 33000.00; // Inverted Y-axis for forward/backward
-            double rightStickX = joystick.getAxisValue(3) / 33000.00; // X-axis for turning
-            double rightStickY = joystick.getAxisValue(2) / 33000.00;
-            // System.out.println("left Stick Value: " + leftStickY + " Right Stick Value: " + rightStickX);
+            
+            double leftStickX = applyDeadZone(joystick.getAxisValue(1) / 33000.00, DEAD_ZONE) ;
+            double leftStickY = applyDeadZone(joystick.getAxisValue(0) / 33000.00, DEAD_ZONE); // Inverted Y-axis for forward/backward
+            double rightStickX = applyDeadZone(joystick.getAxisValue(3) / 33000.00, DEAD_ZONE); // X-axis for turning
+            double rightStickY = applyDeadZone(joystick.getAxisValue(2) / 33000.00, DEAD_ZONE);
+            System.out.println("left Stick Value: " + leftStickY + " Right Stick Value: " + rightStickX);
             
             int joystickButtonPressed = joystick.getPressedButton();
 
